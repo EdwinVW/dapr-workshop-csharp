@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Dapr.Client;
 
 namespace FineCollectionService
 {
@@ -23,8 +24,9 @@ namespace FineCollectionService
             services.AddSingleton<IFineCalculator, HardCodedFineCalculator>();
 
             // add service proxies
-            services.AddHttpClient();
-            services.AddSingleton<VehicleRegistrationService>();
+            services.AddSingleton<VehicleRegistrationService>(_ => 
+                new VehicleRegistrationService(DaprClient.CreateInvokeHttpClient(
+                    "vehicleregistrationservice", "http://localhost:3601")));
 
             services.AddControllers();
         }
