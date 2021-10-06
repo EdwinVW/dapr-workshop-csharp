@@ -8,6 +8,7 @@ using FineCollectionService.Proxies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Dapr;
 
 namespace FineCollectionService.Controllers
 {
@@ -34,6 +35,7 @@ namespace FineCollectionService.Controllers
             }
         }
 
+        [Topic("pubsub", "speedingviolations")]
         [Route("collectfine")]
         [HttpPost()]
         public async Task<ActionResult> CollectFine(SpeedingViolation speedingViolation)

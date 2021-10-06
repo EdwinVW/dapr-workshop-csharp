@@ -7,6 +7,7 @@ using TrafficControlService.Models;
 using System.Net.Http;
 using System.Net.Http.Json;
 using TrafficControlService.Repositories;
+using Dapr.Client;
 
 namespace TrafficControlService.Controllers
 {
@@ -59,7 +60,7 @@ namespace TrafficControlService.Controllers
         }
 
         [HttpPost("exitcam")]
-        public async Task<ActionResult> VehicleExit(VehicleRegistered msg)
+        public async Task<ActionResult> VehicleExit(VehicleRegistered msg, [FromServices] DaprClient daprClient)
         {
             try
             {
@@ -95,8 +96,7 @@ namespace TrafficControlService.Controllers
                     };
 
                     // publish speedingviolation
-                    var message = JsonContent.Create<SpeedingViolation>(speedingViolation);
-                    await _httpClient.PostAsync("http://localhost:6001/collectfine", message);
+                    await daprClient.PublishEventAsync("pubsub", "speedingviolations", speedingViolation);
                 }
 
                 return Ok();
