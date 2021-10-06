@@ -28,6 +28,10 @@ namespace TrafficControlService
             services.AddSingleton<IVehicleStateRepository, InMemoryVehicleStateRepository>();
 
             services.AddControllers();
+
+            services.AddDaprClient(builder => builder
+                .UseHttpEndpoint($"http://localhost:3600")
+                .UseGrpcEndpoint($"http://localhost:60000"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -28,7 +28,7 @@ namespace FineCollectionService
                 new VehicleRegistrationService(DaprClient.CreateInvokeHttpClient(
                     "vehicleregistrationservice", "http://localhost:3601")));
 
-            services.AddControllers();
+            services.AddControllers().AddDapr();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,8 +41,11 @@ namespace FineCollectionService
 
             app.UseRouting();
 
+            app.UseCloudEvents();
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapSubscribeHandler();
                 endpoints.MapControllers();
             });
         }
