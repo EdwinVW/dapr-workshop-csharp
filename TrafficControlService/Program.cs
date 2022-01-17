@@ -1,22 +1,22 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+// create web-app
+var builder = WebApplication.CreateBuilder(args);
 
-namespace TrafficControlService
+builder.Services.AddSingleton<ISpeedingViolationCalculator>(
+    new DefaultSpeedingViolationCalculator("A12", 10, 100, 5));
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<IVehicleStateRepository, InMemoryVehicleStateRepository>();
+builder.Services.AddControllers();
+
+var app = builder.Build();
+
+// configure web-app
+if (app.Environment.IsDevelopment())
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder
-                        .UseUrls("http://localhost:6000")
-                        .UseStartup<Startup>();
-                });
-    }
+    app.UseDeveloperExceptionPage();
 }
+
+// configure routing
+app.MapControllers();
+
+// let's go!
+app.Run("http://localhost:6000");
