@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "FineCollectionService"
+		},
+		{
+			"path": "Infrastructure"
+		},
+		{
+			"path": "Simulation"
+		},
+		{
+			"path": "TrafficControlService"
+		},
+		{
+			"path": "VehicleRegistrationService"
+		}
+	],
+	"settings": {}
+}
