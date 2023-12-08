@@ -14,3 +14,7 @@ popd
 pushd ${basedir}/maildev
 ./stop-maildev.sh
 popd
+
+pushd consul
+./stop-consul.sh
+popd

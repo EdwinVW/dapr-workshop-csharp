@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
 basedir=$(dirname $0)
+
+pushd consul
+./start-consul.sh
+popd
 
 pushd ${basedir}/rabbitmq
 ./start-rabbitmq.sh

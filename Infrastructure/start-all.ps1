@@ -1,3 +1,7 @@
+Push-Location -Path consul
+& ./start-consul.ps1
+Pop-Location
+
 Push-Location -Path mosquitto
 & ./start-mosquitto.ps1
 Pop-Location
